@@ -1,14 +1,7 @@
 <script lang="ts">
-import type { ToastRootEmits, ToastRootProps } from 'radix-vue'
-import type { VariantProps } from 'class-variance-authority'
+import type { ToastRootEmits } from 'radix-vue'
+import { ToastProps } from './toast'
 
-interface ToastVariantProps extends VariantProps<typeof toastVariants> {}
-
-export interface ToastProps extends ToastRootProps {
-  class?: string
-  variant?: ToastVariantProps['variant']
-  'onOpenChange'?: ((value: boolean) => void) | undefined
-};
 </script>
 
 <script setup lang="ts">
