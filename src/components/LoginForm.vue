@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-import { Form } from './ui/form';
+
 import { Label } from './ui/label';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
@@ -49,7 +49,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <Form @submit.prevent="handleLogin()" class="grid items-end grid-cols-2 gap-4 p-4">
+  <form @submit.prevent="handleLogin()" class="grid items-end grid-cols-2 gap-4 p-4">
     <div class="space-y-6">
       <h2 class="text-2xl text-center">使用者登入</h2>
       <div>
@@ -74,5 +74,5 @@ const props = defineProps({
       <Button type="button" @click="handleCheck()" :disabled="isLoading">驗證</Button>
     </div>
     </div>
-  </Form>
+  </form>
 </template>
