@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import {PropType, onMounted, ref} from 'vue';
-import {Button} from '@/components/ui/button';
+import {Button} from './ui/button';
 import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import {Input} from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Switch } from '@/components/ui/switch';
+} from './ui/dialog';
+import {Input} from './ui/input';
+import { Label } from './ui/label';
+import { Textarea } from './ui/textarea';
+import { Switch } from './ui/switch';
 import { X, ImagePlus, FileStack } from 'lucide-vue-next';
 import axios from 'axios';
 

@@ -2,7 +2,7 @@
 import { useAttrs } from 'vue'
 import { PaginationEllipsis, type PaginationEllipsisProps, useForwardProps } from 'radix-vue'
 import { MoreHorizontal } from 'lucide-vue-next'
-import { cn } from '@/lib/utils'
+import { cn } from '../../../lib/utils'
 
 defineOptions({
   inheritAttrs: false,
