@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {PropType, onMounted, ref} from 'vue';
+import {PropType, ref} from 'vue';
 import {Button} from './ui/button';
 import {
   DialogContent,
@@ -74,36 +74,19 @@ const props = defineProps({
   },
 });
 
-const temp = ref<Product>({
-  title: '',
-  category: '',
-  content: '',
-  description: '',
-  imageUrl: '',
-  imagesUrl: [],
-  is_enabled: '',
-  origin_price: 0,
-  price: 0,
-  unit: '',
-  top: '',
-});
 
-onMounted(() =>
-{
-  temp.value = { ...props.temp };
-});
 
 async function handleUpdateProduct() {
   try {
     props.handleLoading(true);
-    console.log(temp.value);
+    console.log(props.temp);
       const res = await axios.put(
-        `${baseUrl}/api/synthwave/admin/product/${temp.value.id}`,
+        `${baseUrl}/api/synthwave/admin/product/${props.temp.id}`,
         {
           data: {
-            ...temp.value,
-            is_enabled: temp.value.is_enabled ? 1 : 0,
-            top: temp.value.top,
+            ...props.temp,
+            is_enabled: props.temp.is_enabled ? 1 : 0,
+            top: props.temp.top,
           },
         },
       );
@@ -138,7 +121,7 @@ async function handleUpdateProduct() {
                 <Input
                   type="text"
                   id="title"
-                  v-model="temp.title"
+                  v-model="props.temp.title"
                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:ring-opacity-50"
                   placeholder="請輸入產品名稱"
                 />
@@ -148,7 +131,7 @@ async function handleUpdateProduct() {
                 <Input
                   type="text"
                   id="category"
-                  v-model="temp.category"
+                  v-model="props.temp.category"
                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:ring-opacity-50"
                   placeholder="請輸入產品分類"
                 />
@@ -158,7 +141,7 @@ async function handleUpdateProduct() {
                 <Input
                   type="text"
                   id="unit"
-                  v-model="temp.unit"
+                  v-model="props.temp.unit"
                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:ring-opacity-50"
                   placeholder="請輸入產品單位"
                 />
@@ -170,7 +153,7 @@ async function handleUpdateProduct() {
                 <Input
                   type="text"
                   id="origin_price"
-                  v-model.number="temp.origin_price"
+                  v-model.number="props.temp.origin_price"
                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:ring-opacity-50"
                   placeholder="請輸入產品原價"
                   pattern="[0-9]+"
@@ -181,7 +164,7 @@ async function handleUpdateProduct() {
                 <Input
                   type="text"
                   id="price"
-                  v-model.number="temp.price"
+                  v-model.number="props.temp.price"
                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:ring-opacity-50"
                   placeholder="請輸入產品售價"
                   pattern="[0-9]+"
@@ -194,7 +177,7 @@ async function handleUpdateProduct() {
                 <Textarea
                   type="text"
                   id="description"
-                  v-model="temp.description"
+                  v-model="props.temp.description"
                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:ring-opacity-50"
                   placeholder="請輸入產品描述"
                 >
@@ -205,7 +188,7 @@ async function handleUpdateProduct() {
                 <Textarea
                   type="text"
                   id="content"
-                  v-model="temp.content"
+                  v-model="props.temp.content"
                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:ring-opacity-50"
                   placeholder="請輸入產品內容"
                 >
@@ -216,8 +199,8 @@ async function handleUpdateProduct() {
               <div class="flex flex-col flex-auto gap-2">
                 <Label for="imageUrl" class="text-lg font-medium">產品主圖</Label>
                 <img
-                  v-if="temp.imageUrl"
-                  :src="temp.imageUrl"
+                  v-if="props.temp.imageUrl"
+                  :src="props.temp.imageUrl"
                   class="object-cover object-center w-full rounded aspect-video max-h-80"
                   alt="主圖"
                 />
@@ -242,13 +225,13 @@ async function handleUpdateProduct() {
                     <Label for="is_enabled" class="text-lg font-medium">是否啟用</Label>
                     <Switch id="is_enabled"
                       :disabled="isLoading"
-                      v-model:checked="(temp.is_enabled as boolean)"
+                      v-model:checked="(props.temp.is_enabled as boolean)"
                       />
                   </div>
                   <div>
                     <Label for="top" class="text-lg font-medium">是否熱門推送</Label>
                     <Switch id="top"
-                      v-model:checked="(temp.top as boolean)"
+                      v-model:checked="(props.temp.top as boolean)"
                       :disabled="isLoading" />
                   </div>
                 </div>
@@ -258,7 +241,7 @@ async function handleUpdateProduct() {
                 <div class="flex flex-wrap gap-4 p-4 overflow-x-scroll">
                   <div
                     class="relative flex-auto max-w-md max-h-32 aspect-square"
-                    v-for="(img, idx) in temp.imagesUrl"
+                    v-for="(img, idx) in props.temp.imagesUrl"
                     :key="img + idx"
                   >
                     <img
@@ -271,7 +254,7 @@ async function handleUpdateProduct() {
                       size="icon"
                       class="absolute top-0 grid p-4 text-white transition duration-300 -translate-x-6 -translate-y-4 bg-gray-600 border rounded hover:bg-gray-400 border-gray-950/75 left-full place-content-center"
                       :disabled="isLoading"
-                      @click="temp.imagesUrl.splice(idx, 1)"
+                      @click="props.temp.imagesUrl.splice(idx, 1)"
                     >
                     <X class="w-5 h-5" />
                     </Button>
